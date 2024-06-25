@@ -18,8 +18,13 @@ public class CustomerService implements ICustomerService {
     @Override
     public CustomerResponse criarCustomer(CustomerRequest customerRequest) {
         validarAtributosCustomer(customerRequest);
+        validarSeEmailJaExiste(customerRequest.getEmail());
+        validarSeCpfJaExiste(customerRequest.getCpf());
         return null;
     }
+
+
+
 
     @Override
     public CustomerResponse buscarCustomerPorId(Integer customerId) {
@@ -54,4 +59,10 @@ public class CustomerService implements ICustomerService {
             throw new RuntimeException("Senha < 6");
         }
     }
+    private void validarSeEmailJaExiste(String email) {
+        _customerRepository.findByEmail(email).orElseThrow(
+                () -> new RuntimeException("Email ja existe")
+        );
+    }
+
 }
