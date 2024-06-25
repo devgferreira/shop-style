@@ -1,11 +1,14 @@
 package com.gabriel.ferreira.ms_customer.domain.model.customer.response;
 
 import com.gabriel.ferreira.ms_customer.domain.enums.Sex;
+import com.gabriel.ferreira.ms_customer.domain.model.address.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,4 +22,5 @@ public class CustomerResponse {
     private String email;
     private String password;
     private Boolean active;
+    private List<Address> addresses;
 }
