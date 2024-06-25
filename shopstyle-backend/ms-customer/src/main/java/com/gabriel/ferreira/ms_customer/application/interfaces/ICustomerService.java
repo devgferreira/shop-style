@@ -4,5 +4,7 @@ import com.gabriel.ferreira.ms_customer.domain.model.customer.request.CustomerRe
 import com.gabriel.ferreira.ms_customer.domain.model.customer.response.CustomerResponse;
 
 public interface ICustomerService {
+    CustomerResponse criarCustomer(CustomerRequest customerRequest);
+
 
 }
