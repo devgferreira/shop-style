@@ -64,5 +64,9 @@ public class CustomerService implements ICustomerService {
                 () -> new RuntimeException("Email ja existe")
         );
     }
-
+    private void validarSeCpfJaExiste(String cpf) {
+        _customerRepository.findByCpf(cpf).orElseThrow(
+                () -> new RuntimeException("Email ja existe")
+        );
+    }
 }
