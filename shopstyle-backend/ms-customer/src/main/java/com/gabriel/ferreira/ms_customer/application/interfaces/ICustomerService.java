@@ -6,5 +6,6 @@ import com.gabriel.ferreira.ms_customer.domain.model.customer.response.CustomerR
 public interface ICustomerService {
     CustomerResponse criarCustomer(CustomerRequest customerRequest);
     CustomerResponse buscarCustomerPorId(Integer customerId);
+    CustomerResponse atualizarCustomer(CustomerRequest customerRequest, Integer customerId);
 
 }
