@@ -2,17 +2,21 @@ package com.gabriel.ferreira.ms_customer.application.service;
 
 import com.gabriel.ferreira.ms_customer.application.interfaces.ICustomerService;
 import com.gabriel.ferreira.ms_customer.domain.enums.Sex;
+import com.gabriel.ferreira.ms_customer.domain.model.customer.Customer;
 import com.gabriel.ferreira.ms_customer.domain.model.customer.request.CustomerRequest;
 import com.gabriel.ferreira.ms_customer.domain.model.customer.response.CustomerResponse;
 import com.gabriel.ferreira.ms_customer.domain.repository.ICustomerRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService implements ICustomerService {
     private final ICustomerRepository _customerRepository;
+    private final ModelMapper _modelMapper;
 
-    public CustomerService(ICustomerRepository customerRepository) {
+    public CustomerService(ICustomerRepository customerRepository, ModelMapper modelMapper) {
         _customerRepository = customerRepository;
+        _modelMapper = modelMapper;
     }
 
     @Override
@@ -20,11 +24,9 @@ public class CustomerService implements ICustomerService {
         validarAtributosCustomer(customerRequest);
         validarSeEmailJaExiste(customerRequest.getEmail());
         validarSeCpfJaExiste(customerRequest.getCpf());
-        return null;
+        Customer customer = _modelMapper.map(customerRequest, Customer.class);
+        return _modelMapper.map(_customerRepository.save(customer), CustomerResponse.class);
     }
-
-
-
 
     @Override
     public CustomerResponse buscarCustomerPorId(Integer customerId) {
