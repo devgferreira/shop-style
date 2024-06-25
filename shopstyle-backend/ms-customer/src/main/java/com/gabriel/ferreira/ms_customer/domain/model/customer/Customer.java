@@ -2,6 +2,7 @@ package com.gabriel.ferreira.ms_customer.domain.model.customer;
 
 import com.gabriel.ferreira.ms_customer.domain.enums.Sex;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name="customer")
+@AllArgsConstructor
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
