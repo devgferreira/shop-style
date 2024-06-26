@@ -8,6 +8,7 @@ import lombok.Data;
 public class AddressResponse {
     private String state;
     private String city;
+    private String district;
     private String street;
     private Integer number;
     private String cep;
