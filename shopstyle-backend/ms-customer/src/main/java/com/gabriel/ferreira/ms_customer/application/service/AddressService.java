@@ -8,6 +8,9 @@ import com.gabriel.ferreira.ms_customer.domain.repository.IAddressRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AddressService implements IAddressService {
 
@@ -27,7 +30,11 @@ public class AddressService implements IAddressService {
         return _modelMapper.map(_addressRepository.save(address), AddressResponse.class);
     }
 
-
+    @Override
+    public List<AddressResponse> buscarAddressesPorCustomerId(Integer customerId) {
+        List<Address> addresses = _addressRepository.findAllByCustomerId(customerId);
+        return addresses.stream().map(address -> _modelMapper.map(address, AddressResponse.class)).collect(Collectors.toList());
+    }
 
 
     @Override
