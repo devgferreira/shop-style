@@ -15,6 +15,7 @@ CREATE TABLE address(
 	state VARCHAR(30) NOT NULL,
 	city VARCHAR(30) NOT NULL,
 	street VARCHAR(30) NOT NULL,
+	district VARCHAR(30) NOT NULL,
 	number VARCHAR(4) NOT NULL,
 	cep VARCHAR(9) NOT NULL,
 	complement VARCHAR(30) NOT NULL,
