@@ -40,7 +40,9 @@ public class AddressService implements IAddressService {
 
     @Override
     public AddressResponse atualizarAddressPorId(AddressRequest addressRequest, Integer addressId) {
-        Address address = _addressRepository.findById(addressId).get();
+        Address address = _addressRepository.findById(addressId).orElseThrow(
+                ()-> new RuntimeException("Address não econtrado")
+        );
         validarStates(addressRequest.getState());
 
         Optional.ofNullable(addressRequest.getState()).filter(state -> !state.isEmpty()).ifPresent(address::setState);
