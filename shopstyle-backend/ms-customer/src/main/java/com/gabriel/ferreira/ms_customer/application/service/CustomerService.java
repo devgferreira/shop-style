@@ -1,7 +1,9 @@
 package com.gabriel.ferreira.ms_customer.application.service;
 
+import com.gabriel.ferreira.ms_customer.application.interfaces.IAddressService;
 import com.gabriel.ferreira.ms_customer.application.interfaces.ICustomerService;
 import com.gabriel.ferreira.ms_customer.domain.enums.Sex;
+import com.gabriel.ferreira.ms_customer.domain.model.address.response.AddressResponse;
 import com.gabriel.ferreira.ms_customer.domain.model.customer.Customer;
 import com.gabriel.ferreira.ms_customer.domain.model.customer.request.CustomerRequest;
 import com.gabriel.ferreira.ms_customer.domain.model.customer.response.CustomerResponse;
@@ -9,15 +11,19 @@ import com.gabriel.ferreira.ms_customer.domain.repository.ICustomerRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CustomerService implements ICustomerService {
     private final ICustomerRepository _customerRepository;
+    private final IAddressService _addressService;
     private final ModelMapper _modelMapper;
 
-    public CustomerService(ICustomerRepository customerRepository, ModelMapper modelMapper) {
+
+    public CustomerService(ICustomerRepository customerRepository, IAddressService addressService, ModelMapper modelMapper) {
         _customerRepository = customerRepository;
+        _addressService = addressService;
         _modelMapper = modelMapper;
     }
 
@@ -32,7 +38,15 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public CustomerResponse buscarCustomerPorId(Integer customerId) {
-        return null;
+        Customer customer = _customerRepository.findById(customerId).orElseThrow(
+                () -> new RuntimeException("Customer não encontrado"));
+
+        List<AddressResponse> addressResponses = _addressService.buscarAddressesPorCustomerId(customer.getId());
+
+        CustomerResponse customerResponse = _modelMapper.map(customer, CustomerResponse.class);
+        customerResponse.setAddresses(addressResponses);
+
+        return customerResponse;
     }
 
     @Override
