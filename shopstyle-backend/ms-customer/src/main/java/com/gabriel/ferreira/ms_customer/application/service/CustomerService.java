@@ -9,6 +9,8 @@ import com.gabriel.ferreira.ms_customer.domain.repository.ICustomerRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CustomerService implements ICustomerService {
     private final ICustomerRepository _customerRepository;
@@ -53,7 +55,7 @@ public class CustomerService implements ICustomerService {
         if(customerRequest.getLastName().length() < 3){
             throw new RuntimeException("< 3 lastName");
         }
-        boolean customerSexValido = customerRequest.getSex().equals(Sex.F) || customerRequest.getSex().equals(Sex.M) ;
+        boolean customerSexValido = customerRequest.getSex().equals(Sex.MASCULINO) || customerRequest.getSex().equals(Sex.FEMININO) ;
         if (!customerSexValido){
             throw new RuntimeException("Sexo incorreto");
         }
