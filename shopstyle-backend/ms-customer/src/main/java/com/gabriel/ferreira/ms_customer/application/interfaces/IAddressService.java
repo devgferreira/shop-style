@@ -5,4 +5,5 @@ import com.gabriel.ferreira.ms_customer.domain.model.address.response.AddressRes
 
 public interface IAddressService {
     AddressResponse criarAddress(AddressRequest addressRequest);
+    AddressResponse atualizarAddressPorCustomerId(AddressRequest addressRequest, Integer customerId);
 }
