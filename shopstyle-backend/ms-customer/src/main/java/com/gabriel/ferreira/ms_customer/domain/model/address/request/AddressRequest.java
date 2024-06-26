@@ -9,9 +9,10 @@ import lombok.Data;
 public class AddressRequest {
     private String state;
     private String city;
+    private String district;
     private String street;
     private Integer number;
     private String cep;
     private String complement;
-    private String customerId;
+    private Integer customerId;
 }
