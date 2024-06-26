@@ -51,7 +51,20 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public CustomerResponse atualizarCustomer(CustomerRequest customerRequest, Integer customerId) {
-        return null;
+        Customer customer = _customerRepository.findById(customerId).orElseThrow(
+                () -> new RuntimeException("Customer não encontrado")
+        );
+        Optional.ofNullable(customerRequest.getFirstName()).filter(firstName -> !firstName.isEmpty()).ifPresent(customer::setFirstName);
+        Optional.ofNullable(customerRequest.getLastName()).filter(lastName -> !lastName.isEmpty()).ifPresent(customer::setLastName);
+        Optional.ofNullable(customerRequest.getCpf()).filter(cpf -> !cpf.isEmpty()).ifPresent(customer::setCpf);
+        Optional.ofNullable(customerRequest.getEmail()).filter(email -> !email.isEmpty()).ifPresent(customer::setEmail);
+        Optional.ofNullable(customerRequest.getBirthdate()).ifPresent(customer::setBirthdate);
+        Optional.ofNullable(customerRequest.getSex()).ifPresent(customer::setSex);
+        Optional.ofNullable(customerRequest.getPassword()).filter(password -> !password.isEmpty()).ifPresent(customer::setPassword);
+        Optional.ofNullable(customerRequest.getActive()).ifPresent(customer::setActive);
+
+        return _modelMapper.map(customer, CustomerResponse.class);
+
     }
 
     private static void validarAtributosCustomer(CustomerRequest customerRequest){
