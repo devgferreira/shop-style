@@ -22,6 +22,7 @@ public class AddressService implements IAddressService {
     @Override
     public AddressResponse criarAddress(AddressRequest addressRequest) {
         validarAddressAtributos(addressRequest);
+        validarStates(addressRequest);
         return null;
     }
 
@@ -46,5 +47,19 @@ public class AddressService implements IAddressService {
             throw new RuntimeException("Address inválido");
         }
     }
-
+    private static void validarStates(AddressRequest addressRequest) {
+        String[] states = {
+                "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia",
+                "Ceará", "Distrito Federal", "Espírito Santo", "Goiás",
+                "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais",
+                "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro",
+                "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima",
+                "Santa Catarina", "São Paulo", "Sergipe", "Tocantins"
+        };
+        for (String state : states) {
+            if (!state.equals(addressRequest.getState())) {
+                throw new RuntimeException("State inválido");
+            }
+        }
+    }
 }
