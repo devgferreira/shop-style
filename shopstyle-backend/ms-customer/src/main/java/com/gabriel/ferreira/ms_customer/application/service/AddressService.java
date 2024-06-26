@@ -54,8 +54,11 @@ public class AddressService implements IAddressService {
     }
 
     @Override
-    public void deleterAddressPorCustomerId(Integer customerId) {
+    public void deleterAddressPorId(Integer addressId) {
+        Address address = _addressRepository.findById(addressId).orElseThrow(() ->
+                new RuntimeException("Address não encontrado"));
 
+        _addressRepository.deleteById(address.getId());
     }
 
     private static void validarAddressAtributos(AddressRequest addressRequest) {
