@@ -9,5 +9,5 @@ public interface IAddressService {
     AddressResponse criarAddress(AddressRequest addressRequest);
     List<AddressResponse> buscarAddressesPorCustomerId(Integer customerId);
     AddressResponse atualizarAddressPorId(AddressRequest addressRequest, Integer addressId);
-    void deleterAddressPorCustomerId(Integer customerId);
+    void deleterAddressPorId(Integer addressId);
 }
