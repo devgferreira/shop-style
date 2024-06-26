@@ -8,6 +8,6 @@ import java.util.List;
 public interface IAddressService {
     AddressResponse criarAddress(AddressRequest addressRequest);
     List<AddressResponse> buscarAddressesPorCustomerId(Integer customerId);
-    AddressResponse atualizarAddressPorCustomerId(AddressRequest addressRequest, Integer customerId);
+    AddressResponse atualizarAddressPorId(AddressRequest addressRequest, Integer addressId);
     void deleterAddressPorCustomerId(Integer customerId);
 }
