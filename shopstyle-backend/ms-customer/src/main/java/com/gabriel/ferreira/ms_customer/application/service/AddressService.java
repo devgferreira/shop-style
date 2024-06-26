@@ -23,7 +23,8 @@ public class AddressService implements IAddressService {
     public AddressResponse criarAddress(AddressRequest addressRequest) {
         validarAddressAtributos(addressRequest);
         validarStates(addressRequest);
-        return null;
+        Address address = _modelMapper.map(addressRequest, Address.class);
+        return _modelMapper.map(_addressRepository.save(address), AddressResponse.class);
     }
 
 
