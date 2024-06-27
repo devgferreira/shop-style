@@ -1,5 +1,6 @@
 package com.gabriel.ferreira.ms_customer.infra.exception;
 
+import com.gabriel.ferreira.ms_customer.domain.enums.ErrorCodes;
 import lombok.Data;
 
 @Data
