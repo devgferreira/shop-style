@@ -16,7 +16,8 @@ public enum ErrorCodes {
     CUSTOMER_CPF_JA_EXISTE("Cpf já existe"),
     CUSTOMER_EMAIL_INVALIDO("Email inválido, por favor, coloque no formato: example@example.com"),
     CUSTOMER_CPF_INVALIDO("Cpf inválido, por favor, coloque no formato: 000.000.000-00"),
-    ADDRESS_NAO_ENCONTRADA("Address não econtrada");
+    ADDRESS_NAO_ENCONTRADA("Address não econtrada"),
+    ADDRESS_INVALIDO("Por favor, preencha todos os campos");
 
     private final String mensagem;
 }
