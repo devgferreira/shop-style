@@ -17,7 +17,8 @@ public enum ErrorCodes {
     CUSTOMER_EMAIL_INVALIDO("Email inválido, por favor, coloque no formato: example@example.com"),
     CUSTOMER_CPF_INVALIDO("Cpf inválido, por favor, coloque no formato: 000.000.000-00"),
     ADDRESS_NAO_ENCONTRADA("Address não econtrada"),
-    ADDRESS_INVALIDO("Por favor, preencha todos os campos");
+    ADDRESS_INVALIDO("Por favor, preencha todos os campos"),
+    ADDRESS_STATE_INVALIDO("Por favor, coloque um dos 27 estados do Brasil");
 
     private final String mensagem;
 }
