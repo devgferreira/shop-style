@@ -7,8 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ErrorCodes {
     CUSTOMER_NAO_ENCONTRADO("Customer não encontrado"),
-
-
+    CUSTOMER_INVALIDO("Por favor, preencha todos os campos");
 
 
     private final String mensagem;
