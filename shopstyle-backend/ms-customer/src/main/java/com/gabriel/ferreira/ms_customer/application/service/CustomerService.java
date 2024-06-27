@@ -51,6 +51,7 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public CustomerResponse atualizarCustomer(CustomerRequest customerRequest, Integer customerId) {
+        validarAtributosCustomer(customerRequest);
         Customer customer = _customerRepository.findById(customerId).orElseThrow(
                 () -> new RuntimeException("Customer não encontrado")
         );
