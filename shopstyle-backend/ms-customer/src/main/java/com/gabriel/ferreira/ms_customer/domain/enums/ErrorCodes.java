@@ -14,6 +14,7 @@ public enum ErrorCodes {
     CUSTOMER_PASSWORD_INVALIDO("A senha deve contem 6 ou mais caracteres"),
     CUSTOMER_EMAIL_JA_EXISTE("Email já existe"),
     CUSTOMER_CPF_JA_EXISTE("Cpf já existe"),
+    CUSTOMER_EMAIL_INVALIDO("Email inválido, por favor, coloque no formato: example@example.com"),
     CUSTOMER_CPF_INVALIDO("Cpf inválido, por favor, coloque no formato: 000.000.000-00");
 
 
