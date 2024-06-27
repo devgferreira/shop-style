@@ -22,9 +22,14 @@ public class AddressController {
         AddressResponse addressResponse = _addressService.criarAddress(addressRequest);
         return new ResponseEntity<>(addressResponse, HttpStatus.CREATED);
     }
-    @PutMapping
-    public ResponseEntity<AddressResponse> ataualizarAddress(@RequestBody AddressRequest addressRequest, @PathVariable Integer addressId){
+    @PutMapping("/id/{addressId}")
+    public ResponseEntity<AddressResponse> atualizarAddress(@RequestBody AddressRequest addressRequest, @PathVariable Integer addressId){
         AddressResponse addressResponse = _addressService.atualizarAddressPorId(addressRequest, addressId);
         return new ResponseEntity<>(addressResponse, HttpStatus.OK);
+    }
+    @DeleteMapping("/id/{addressId}")
+    public ResponseEntity<String> deletarAddress(@PathVariable Integer addressId){
+        _addressService.deleterAddressPorId(addressId);
+        return new ResponseEntity<>("Address deletado com sucesso!", HttpStatus.OK);
     }
 }
