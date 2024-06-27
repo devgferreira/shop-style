@@ -8,11 +8,13 @@ import com.gabriel.ferreira.ms_customer.domain.model.customer.Customer;
 import com.gabriel.ferreira.ms_customer.domain.model.customer.request.CustomerRequest;
 import com.gabriel.ferreira.ms_customer.domain.model.customer.response.CustomerResponse;
 import com.gabriel.ferreira.ms_customer.domain.repository.ICustomerRepository;
+import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class CustomerService implements ICustomerService {
@@ -90,6 +92,8 @@ public class CustomerService implements ICustomerService {
         if(customerRequest.getPassword().length() < 6){
             throw new RuntimeException("Senha < 6");
         }
+        validarCpf(customerRequest.getCpf());
+        validarEmail(customerRequest.getEmail());
     }
     private void validarSeEmailJaExiste(String email) {
         _customerRepository.findByEmail(email).orElseThrow(
@@ -100,5 +104,39 @@ public class CustomerService implements ICustomerService {
         _customerRepository.findByCpf(cpf).orElseThrow(
                 () -> new RuntimeException("Email ja existe")
         );
+    }
+    private static void validarCpf(String cpf){
+
+        cpf = cpf.replaceAll("[^0-9]", "");
+
+        if(cpf.length() < 11 || cpf.length() > 14){
+            throw new RuntimeException("Cpf inválido");
+        }
+        String[] cpfPartes = cpf.split("\\.");
+
+        if(cpfPartes.length != 3){
+            throw new RuntimeException("Cpf inválido");
+        }
+        for (String partes : cpfPartes){
+            if(partes.length() == 0){
+                throw new RuntimeException("Cpf inválido");
+            }
+            for (char c : partes.toCharArray()){
+                if(!Character.isDigit(c)){
+                    throw new RuntimeException("Cpf inválido");
+                }
+            }
+        }
+        CPFValidator validator = new CPFValidator();
+        validator.initialize(null);
+        if(!validator.isValid(cpf, null)){
+            throw new RuntimeException("Cpf inválido");
+        }
+    }
+    private static void validarEmail(String email){
+        String regex = "^[\\w+.\\-]+@[\\w+.-]+\\.[\\w]{2,}$";
+        if (!Pattern.matches(regex, email)){
+            throw new RuntimeException("Email invalido");
+        }
     }
 }
