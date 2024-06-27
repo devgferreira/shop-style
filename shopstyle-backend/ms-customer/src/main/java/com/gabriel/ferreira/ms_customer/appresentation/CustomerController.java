@@ -26,4 +26,9 @@ public class CustomerController {
         CustomerResponse customerResponse = _customerService.buscarCustomerPorId(customerId);
         return new ResponseEntity<>(customerResponse, HttpStatus.OK);
     }
+    @PutMapping("/id/{customerId}")
+    public ResponseEntity<CustomerResponse> atualizarCustomerPorId(@RequestBody CustomerRequest customerRequest, @PathVariable Integer customerId){
+        CustomerResponse customerResponse = _customerService.atualizarCustomer(customerRequest, customerId);
+        return new ResponseEntity<>(customerResponse, HttpStatus.OK);
+    }
 }
