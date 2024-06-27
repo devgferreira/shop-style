@@ -12,7 +12,9 @@ public enum ErrorCodes {
     CUSTOMER_LAST_NAME_INVALIDO("O Last Name precisa contem 3 ou mais caracteres"),
     CUSTOMER_SEX_INVALIDO("Sexo invalido, por favor, coloque 'Masculino' ou 'Feminino'"),
     CUSTOMER_PASSWORD_INVALIDO("A senha deve contem 6 ou mais caracteres"),
-    CUSTOMER_EMAIL_JA_EXISTE("Email já existe");
+    CUSTOMER_EMAIL_JA_EXISTE("Email já existe"),
+    CUSTOMER_CPF_JA_EXISTE("Cpf já existe"),
+    CUSTOMER_CPF_INVALIDO("Cpf inválido, por favor, coloque no formato: 000.000.000-00");
 
 
 
