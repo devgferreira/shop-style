@@ -85,7 +85,7 @@ public class CustomerService implements ICustomerService {
         if(customerRequest.getLastName().length() < 3){
             throw new RuntimeException("< 3 lastName");
         }
-        boolean customerSexValido = customerRequest.getSex().equals(Sex.MASCULINO) || customerRequest.getSex().equals(Sex.FEMININO) ;
+        boolean customerSexValido = customerRequest.getSex().equals(Sex.Feminino) || customerRequest.getSex().equals(Sex.Masculino) ;
         if (!customerSexValido){
             throw new RuntimeException("Sexo incorreto");
         }
@@ -96,37 +96,24 @@ public class CustomerService implements ICustomerService {
         validarEmail(customerRequest.getEmail());
     }
     private void validarSeEmailJaExiste(String email) {
-        _customerRepository.findByEmail(email).orElseThrow(
-                () -> new RuntimeException("Email ja existe")
-        );
+        Optional<Customer> customer = _customerRepository.findByEmail(email);
+        if(customer.isPresent()){
+            throw new RuntimeException("Customer já existe com esse email");
+        }
     }
     private void validarSeCpfJaExiste(String cpf) {
-        _customerRepository.findByCpf(cpf).orElseThrow(
-                () -> new RuntimeException("Email ja existe")
-        );
+        Optional<Customer> customer = _customerRepository.findByCpf(cpf);
+        if(customer.isPresent()){
+            throw new RuntimeException("Customer já existe com esse CPF");
+        }
     }
     private static void validarCpf(String cpf){
 
-        cpf = cpf.replaceAll("[^0-9]", "");
 
-        if(cpf.length() < 11 || cpf.length() > 14){
-            throw new RuntimeException("Cpf inválido");
+        if(cpf.length() != 14){
+            throw new RuntimeException("Cpf inválido 1 ");
         }
-        String[] cpfPartes = cpf.split("\\.");
 
-        if(cpfPartes.length != 3){
-            throw new RuntimeException("Cpf inválido");
-        }
-        for (String partes : cpfPartes){
-            if(partes.length() == 0){
-                throw new RuntimeException("Cpf inválido");
-            }
-            for (char c : partes.toCharArray()){
-                if(!Character.isDigit(c)){
-                    throw new RuntimeException("Cpf inválido");
-                }
-            }
-        }
         CPFValidator validator = new CPFValidator();
         validator.initialize(null);
         if(!validator.isValid(cpf, null)){
