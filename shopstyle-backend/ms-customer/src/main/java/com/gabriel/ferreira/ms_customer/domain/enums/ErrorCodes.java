@@ -11,7 +11,8 @@ public enum ErrorCodes {
     CUSTOMER_FIRST_NAME_INVALIDO("O First Name precisa contem 3 ou mais caracteres"),
     CUSTOMER_LAST_NAME_INVALIDO("O Last Name precisa contem 3 ou mais caracteres"),
     CUSTOMER_SEX_INVALIDO("Sexo invalido, por favor, coloque 'Masculino' ou 'Feminino'"),
-    CUSTOMER_PASSWORD_INVALIDO("A senha deve contem 6 ou mais caracteres");
+    CUSTOMER_PASSWORD_INVALIDO("A senha deve contem 6 ou mais caracteres"),
+    CUSTOMER_EMAIL_JA_EXISTE("Email já existe");
 
 
 
