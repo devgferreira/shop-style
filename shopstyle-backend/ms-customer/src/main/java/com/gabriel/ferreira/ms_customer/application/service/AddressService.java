@@ -1,11 +1,17 @@
 package com.gabriel.ferreira.ms_customer.application.service;
 
 import com.gabriel.ferreira.ms_customer.application.interfaces.IAddressService;
+import com.gabriel.ferreira.ms_customer.domain.enums.ErrorCodes;
 import com.gabriel.ferreira.ms_customer.domain.model.address.Address;
 import com.gabriel.ferreira.ms_customer.domain.model.address.request.AddressRequest;
 import com.gabriel.ferreira.ms_customer.domain.model.address.response.AddressResponse;
 import com.gabriel.ferreira.ms_customer.domain.model.customer.Customer;
 import com.gabriel.ferreira.ms_customer.domain.repository.IAddressRepository;
+import com.gabriel.ferreira.ms_customer.infra.exception.ExceptionResponse;
+import com.gabriel.ferreira.ms_customer.infra.exception.address.AddressInvalidoException;
+import com.gabriel.ferreira.ms_customer.infra.exception.address.AddressNaoEncontradoException;
+import com.gabriel.ferreira.ms_customer.infra.exception.address.AddressStateException;
+import com.gabriel.ferreira.ms_customer.infra.exception.constant.ErrorConstant;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -58,9 +64,10 @@ public class AddressService implements IAddressService {
 
     @Override
     public AddressResponse atualizarAddressPorId(AddressRequest addressRequest, Integer addressId) {
-        Address address = _addressRepository.findById(addressId).orElseThrow(
-                ()-> new RuntimeException("Address não econtrado")
-        );
+        Address address = _addressRepository.findById(addressId).orElseThrow(() ->
+                new AddressNaoEncontradoException(
+                        new ExceptionResponse(ErrorCodes.ADDRESS_NAO_ENCONTRADA, ErrorConstant.ADDRESS_NAO_ENCONTRADA)
+                ));
         validarStates(addressRequest.getState());
 
         Optional.ofNullable(addressRequest.getState()).filter(state -> !state.isEmpty()).ifPresent(address::setState);
@@ -76,8 +83,9 @@ public class AddressService implements IAddressService {
     @Override
     public void deleterAddressPorId(Integer addressId) {
         Address address = _addressRepository.findById(addressId).orElseThrow(() ->
-                new RuntimeException("Address não encontrado"));
-
+                new AddressNaoEncontradoException(
+                        new ExceptionResponse(ErrorCodes.ADDRESS_NAO_ENCONTRADA, ErrorConstant.ADDRESS_NAO_ENCONTRADA)
+                ));
         _addressRepository.deleteById(address.getId());
     }
 
@@ -86,7 +94,9 @@ public class AddressService implements IAddressService {
                 addressRequest.getCity().isEmpty() || addressRequest.getState().isEmpty() || addressRequest.getDistrict().isEmpty() ||
                 addressRequest.getStreet().isEmpty() || addressRequest.getCustomerId() == null;
         if (addressValido){
-            throw new RuntimeException("Address inválido");
+            throw new AddressInvalidoException(
+                    new ExceptionResponse(ErrorCodes.ADDRESS_INVALIDO, ErrorConstant.ADDRESS_INVALIDO)
+            );
         }
     }
     private static void validarStates(String addressState) {
@@ -106,7 +116,11 @@ public class AddressService implements IAddressService {
             }
         }
         if (!found) {
-            throw new RuntimeException("Estado inválido");
+            throw new AddressStateException(
+                    new ExceptionResponse(
+                            ErrorCodes.ADDRESS_STATE_INVALIDO, ErrorConstant.ADDRESS_STATE_INVALIDO
+                    )
+            );
         }
     }
 }
