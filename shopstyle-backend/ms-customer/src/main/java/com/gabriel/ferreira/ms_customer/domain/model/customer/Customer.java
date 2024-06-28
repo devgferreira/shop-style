@@ -1,5 +1,6 @@
 package com.gabriel.ferreira.ms_customer.domain.model.customer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gabriel.ferreira.ms_customer.domain.enums.Sex;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class Customer {
     private String lastName;
     @Enumerated(value = EnumType.STRING)
     private Sex sex;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date birthdate;
     @Column(unique = true, nullable = false)
     private String email;
