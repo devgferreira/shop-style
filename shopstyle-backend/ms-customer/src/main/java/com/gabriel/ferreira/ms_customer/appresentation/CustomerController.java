@@ -21,12 +21,12 @@ public class CustomerController {
         CustomerResponse customerResponse = _customerService.criarCustomer(customerRequest);
         return new ResponseEntity<>(customerResponse, HttpStatus.CREATED);
     }
-    @GetMapping("/id/{customerId}")
+    @GetMapping(value = "/id/{customerId}")
     public ResponseEntity<CustomerResponse> buscarCustomerPorId(@PathVariable Integer customerId){
         CustomerResponse customerResponse = _customerService.buscarCustomerPorId(customerId);
         return new ResponseEntity<>(customerResponse, HttpStatus.OK);
     }
-    @PutMapping("/id/{customerId}")
+    @PutMapping(value = "/id/{customerId}")
     public ResponseEntity<CustomerResponse> atualizarCustomerPorId(@RequestBody CustomerRequest customerRequest, @PathVariable Integer customerId){
         CustomerResponse customerResponse = _customerService.atualizarCustomer(customerRequest, customerId);
         return new ResponseEntity<>(customerResponse, HttpStatus.OK);
