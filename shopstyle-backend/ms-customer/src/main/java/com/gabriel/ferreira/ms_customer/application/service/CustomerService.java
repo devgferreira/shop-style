@@ -11,10 +11,7 @@ import com.gabriel.ferreira.ms_customer.domain.model.customer.response.CustomerR
 import com.gabriel.ferreira.ms_customer.domain.repository.ICustomerRepository;
 import com.gabriel.ferreira.ms_customer.infra.exception.ExceptionResponse;
 import com.gabriel.ferreira.ms_customer.infra.exception.constant.ErrorConstant;
-import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerFirstNameInvalidoException;
-import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerInvalidoException;
-import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerLastNameInvalidoException;
-import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerNaoEncontradoException;
+import com.gabriel.ferreira.ms_customer.infra.exception.customer.*;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -100,9 +97,11 @@ public class CustomerService implements ICustomerService {
                     new ExceptionResponse(ErrorCodes.CUSTOMER_LAST_NAME_INVALIDO, ErrorConstant.CUSTOMER_LAST_NAME_INVALIDO)
             );
         }
-        boolean customerSexValido = customerRequest.getSex().equals(Sex.Feminino) || customerRequest.getSex().equals(Sex.Masculino) ;
+        boolean customerSexValido = customerRequest.getSex().toString().equals("Feminino") || customerRequest.getSex().toString().equals("Masculino") ;
         if (!customerSexValido){
-            throw new RuntimeException("Sexo incorreto");
+            throw new CustomerSexInvalidoException(
+                    new ExceptionResponse(ErrorCodes.CUSTOMER_SEX_INVALIDO, ErrorConstant.CUSTOMER_SEX_INVALIDO)
+            );
         }
         if(customerRequest.getPassword().length() < 6){
             throw new RuntimeException("Senha < 6");
