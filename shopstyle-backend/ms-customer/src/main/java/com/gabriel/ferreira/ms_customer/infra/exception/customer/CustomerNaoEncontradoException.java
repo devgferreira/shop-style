@@ -1,5 +1,6 @@
-package com.gabriel.ferreira.ms_customer.infra.exception;
+package com.gabriel.ferreira.ms_customer.infra.exception.customer;
 
+import com.gabriel.ferreira.ms_customer.infra.exception.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
