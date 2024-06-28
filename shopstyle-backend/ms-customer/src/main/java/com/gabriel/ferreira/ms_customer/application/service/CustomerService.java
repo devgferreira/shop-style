@@ -145,7 +145,9 @@ public class CustomerService implements ICustomerService {
     private static void validarEmail(String email){
         String regex = "^[\\w+.\\-]+@[\\w+.-]+\\.[\\w]{2,}$";
         if (!Pattern.matches(regex, email)){
-            throw new RuntimeException("Email invalido");
+            throw new CustomerEmailInvalidoException(
+                    new ExceptionResponse(ErrorCodes.CUSTOMER_EMAIL_INVALIDO, ErrorConstant.CUSTOMER_EMAIL_INVALIDO)
+            );
         }
     }
 }
