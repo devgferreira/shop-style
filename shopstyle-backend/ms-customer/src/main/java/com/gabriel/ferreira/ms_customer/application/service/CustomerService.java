@@ -13,6 +13,7 @@ import com.gabriel.ferreira.ms_customer.infra.exception.ExceptionResponse;
 import com.gabriel.ferreira.ms_customer.infra.exception.constant.ErrorConstant;
 import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerFirstNameInvalidoException;
 import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerInvalidoException;
+import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerLastNameInvalidoException;
 import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerNaoEncontradoException;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import org.modelmapper.ModelMapper;
@@ -95,7 +96,9 @@ public class CustomerService implements ICustomerService {
                     new ExceptionResponse(ErrorCodes.CUSTOMER_FIRST_NAME_INVALIDO, ErrorConstant.CUSTOMER_FIRST_NAME_INVALIDO));
         }
         if(customerRequest.getLastName().length() < 3){
-            throw new RuntimeException("< 3 lastName");
+            throw new CustomerLastNameInvalidoException(
+                    new ExceptionResponse(ErrorCodes.CUSTOMER_LAST_NAME_INVALIDO, ErrorConstant.CUSTOMER_LAST_NAME_INVALIDO)
+            );
         }
         boolean customerSexValido = customerRequest.getSex().equals(Sex.Feminino) || customerRequest.getSex().equals(Sex.Masculino) ;
         if (!customerSexValido){
