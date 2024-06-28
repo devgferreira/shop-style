@@ -104,7 +104,9 @@ public class CustomerService implements ICustomerService {
             );
         }
         if(customerRequest.getPassword().length() < 6){
-            throw new RuntimeException("Senha < 6");
+            throw new CustomerPasswordInvalidoException(
+                    new ExceptionResponse(ErrorCodes.CUSTOMER_PASSWORD_INVALIDO, ErrorConstant.CUSTOMER_PASSWORD_INVALIDO)
+            );
         }
         validarCpf(customerRequest.getCpf());
         validarEmail(customerRequest.getEmail());
@@ -112,7 +114,9 @@ public class CustomerService implements ICustomerService {
     private void validarSeEmailJaExiste(String email) {
         Optional<Customer> customer = _customerRepository.findByEmail(email);
         if(customer.isPresent()){
-            throw new RuntimeException("Customer já existe com esse email");
+            throw new CustomerEmailJaExisteException(
+                    new ExceptionResponse(ErrorCodes.CUSTOMER_EMAIL_JA_EXISTE, ErrorConstant.CUSTOMER_EMAIL_JA_EXISTE)
+            );
         }
     }
     private void validarSeCpfJaExiste(String cpf) {
