@@ -122,7 +122,9 @@ public class CustomerService implements ICustomerService {
     private void validarSeCpfJaExiste(String cpf) {
         Optional<Customer> customer = _customerRepository.findByCpf(cpf);
         if(customer.isPresent()){
-            throw new RuntimeException("Customer já existe com esse CPF");
+            throw new CustomerCpfJaExisteException(
+                    new ExceptionResponse(ErrorCodes.CUSTOMER_CPF_JA_EXISTE, ErrorConstant.CUSTOMER_CPF_JA_EXISTE)
+            );
         }
     }
     private static void validarCpf(String cpf){
