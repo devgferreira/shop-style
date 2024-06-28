@@ -11,6 +11,7 @@ import com.gabriel.ferreira.ms_customer.domain.model.customer.response.CustomerR
 import com.gabriel.ferreira.ms_customer.domain.repository.ICustomerRepository;
 import com.gabriel.ferreira.ms_customer.infra.exception.ExceptionResponse;
 import com.gabriel.ferreira.ms_customer.infra.exception.constant.ErrorConstant;
+import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerFirstNameInvalidoException;
 import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerInvalidoException;
 import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerNaoEncontradoException;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
@@ -90,7 +91,8 @@ public class CustomerService implements ICustomerService {
                             new ExceptionResponse(ErrorCodes.CUSTOMER_INVALIDO, ErrorConstant.CUSTOMER_INVALIDO));
         }
         if(customerRequest.getFirstName().length() < 3){
-            throw new RuntimeException("< 3 firstName");
+            throw new CustomerFirstNameInvalidoException(
+                    new ExceptionResponse(ErrorCodes.CUSTOMER_FIRST_NAME_INVALIDO, ErrorConstant.CUSTOMER_FIRST_NAME_INVALIDO));
         }
         if(customerRequest.getLastName().length() < 3){
             throw new RuntimeException("< 3 lastName");
