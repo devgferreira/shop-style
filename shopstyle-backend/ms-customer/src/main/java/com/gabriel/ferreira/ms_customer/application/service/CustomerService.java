@@ -2,12 +2,16 @@ package com.gabriel.ferreira.ms_customer.application.service;
 
 import com.gabriel.ferreira.ms_customer.application.interfaces.IAddressService;
 import com.gabriel.ferreira.ms_customer.application.interfaces.ICustomerService;
+import com.gabriel.ferreira.ms_customer.domain.enums.ErrorCodes;
 import com.gabriel.ferreira.ms_customer.domain.enums.Sex;
 import com.gabriel.ferreira.ms_customer.domain.model.address.response.AddressResponse;
 import com.gabriel.ferreira.ms_customer.domain.model.customer.Customer;
 import com.gabriel.ferreira.ms_customer.domain.model.customer.request.CustomerRequest;
 import com.gabriel.ferreira.ms_customer.domain.model.customer.response.CustomerResponse;
 import com.gabriel.ferreira.ms_customer.domain.repository.ICustomerRepository;
+import com.gabriel.ferreira.ms_customer.infra.exception.ExceptionResponse;
+import com.gabriel.ferreira.ms_customer.infra.exception.constant.ErrorConstant;
+import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerNaoEncontradoException;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -41,7 +45,9 @@ public class CustomerService implements ICustomerService {
     @Override
     public CustomerResponse buscarCustomerPorId(Integer customerId) {
         Customer customer = _customerRepository.findById(customerId).orElseThrow(
-                () -> new RuntimeException("Customer não encontrado"));
+                () -> new CustomerNaoEncontradoException(
+                        new ExceptionResponse(ErrorCodes.CUSTOMER_NAO_ENCONTRADO, ErrorConstant.CUSTOMER_NAO_ENCONTRADO))
+                );
 
         List<AddressResponse> addressResponses = _addressService.buscarAddressesPorCustomerId(customer.getId());
 
@@ -55,7 +61,8 @@ public class CustomerService implements ICustomerService {
     public CustomerResponse atualizarCustomer(CustomerRequest customerRequest, Integer customerId) {
         validarAtributosCustomer(customerRequest);
         Customer customer = _customerRepository.findById(customerId).orElseThrow(
-                () -> new RuntimeException("Customer não encontrado")
+                () -> new CustomerNaoEncontradoException(
+                        new ExceptionResponse(ErrorCodes.CUSTOMER_NAO_ENCONTRADO, ErrorConstant.CUSTOMER_NAO_ENCONTRADO))
         );
         Optional.ofNullable(customerRequest.getFirstName()).filter(firstName -> !firstName.isEmpty()).ifPresent(customer::setFirstName);
         Optional.ofNullable(customerRequest.getLastName()).filter(lastName -> !lastName.isEmpty()).ifPresent(customer::setLastName);
