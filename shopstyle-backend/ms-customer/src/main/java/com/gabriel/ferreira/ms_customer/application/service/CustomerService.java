@@ -128,16 +128,18 @@ public class CustomerService implements ICustomerService {
         }
     }
     private static void validarCpf(String cpf){
-
-
         if(cpf.length() != 14){
-            throw new RuntimeException("Cpf inválido 1 ");
+            throw new CustomerCpfInvalidoException(
+                    new ExceptionResponse(ErrorCodes.CUSTOMER_CPF_INVALIDO, ErrorConstant.CUSTOMER_CPF_INVALIDO)
+            );
         }
 
         CPFValidator validator = new CPFValidator();
         validator.initialize(null);
         if(!validator.isValid(cpf, null)){
-            throw new RuntimeException("Cpf inválido");
+            throw new CustomerCpfInvalidoException(
+                    new ExceptionResponse(ErrorCodes.CUSTOMER_CPF_INVALIDO, ErrorConstant.CUSTOMER_CPF_INVALIDO)
+            );
         }
     }
     private static void validarEmail(String email){
