@@ -11,6 +11,7 @@ import com.gabriel.ferreira.ms_customer.domain.model.customer.response.CustomerR
 import com.gabriel.ferreira.ms_customer.domain.repository.ICustomerRepository;
 import com.gabriel.ferreira.ms_customer.infra.exception.ExceptionResponse;
 import com.gabriel.ferreira.ms_customer.infra.exception.constant.ErrorConstant;
+import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerInvalidoException;
 import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerNaoEncontradoException;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import org.modelmapper.ModelMapper;
@@ -84,7 +85,9 @@ public class CustomerService implements ICustomerService {
                 || customerRequest.getSex() == null || customerRequest.getActive() == null;
 
         if (customerCamposVazios){
-            throw new RuntimeException("Campos Vazios");
+            throw
+                    new CustomerInvalidoException(
+                            new ExceptionResponse(ErrorCodes.CUSTOMER_INVALIDO, ErrorConstant.CUSTOMER_INVALIDO));
         }
         if(customerRequest.getFirstName().length() < 3){
             throw new RuntimeException("< 3 firstName");
