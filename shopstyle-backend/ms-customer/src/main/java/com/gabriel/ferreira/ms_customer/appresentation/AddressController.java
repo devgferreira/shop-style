@@ -3,7 +3,6 @@ package com.gabriel.ferreira.ms_customer.appresentation;
 import com.gabriel.ferreira.ms_customer.application.interfaces.IAddressService;
 import com.gabriel.ferreira.ms_customer.domain.model.address.request.AddressRequest;
 import com.gabriel.ferreira.ms_customer.domain.model.address.response.AddressResponse;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

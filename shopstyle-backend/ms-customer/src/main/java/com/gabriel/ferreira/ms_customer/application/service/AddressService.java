@@ -4,6 +4,7 @@ import com.gabriel.ferreira.ms_customer.application.interfaces.IAddressService;
 import com.gabriel.ferreira.ms_customer.domain.model.address.Address;
 import com.gabriel.ferreira.ms_customer.domain.model.address.request.AddressRequest;
 import com.gabriel.ferreira.ms_customer.domain.model.address.response.AddressResponse;
+import com.gabriel.ferreira.ms_customer.domain.model.customer.Customer;
 import com.gabriel.ferreira.ms_customer.domain.repository.IAddressRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,25 @@ public class AddressService implements IAddressService {
     public AddressResponse criarAddress(AddressRequest addressRequest) {
         validarAddressAtributos(addressRequest);
         validarStates(addressRequest.getState());
-        Address address = _modelMapper.map(addressRequest, Address.class);
-        return _modelMapper.map(_addressRepository.save(address), AddressResponse.class);
+
+        Customer customer = new Customer();
+        customer.setId(addressRequest.getCustomerId());
+
+        Address address = new Address();
+        address.setCity(addressRequest.getCity());
+        address.setCep(addressRequest.getCep());
+        address.setDistrict(addressRequest.getDistrict());
+        address.setState(addressRequest.getState());
+        address.setComplement(addressRequest.getComplement());
+        address.setStreet(addressRequest.getStreet());
+        address.setNumber(addressRequest.getNumber());
+        address.setCustomer(customer);
+
+        address.setCustomer(customer);
+        _addressRepository.save(address);
+
+
+        return _modelMapper.map(address, AddressResponse.class);
     }
 
     @Override
@@ -80,10 +98,15 @@ public class AddressService implements IAddressService {
                 "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima",
                 "Santa Catarina", "São Paulo", "Sergipe", "Tocantins"
         };
+        boolean found = false;
         for (String state : states) {
-            if (!state.equals(addressState)) {
-                throw new RuntimeException("State inválido");
+            if (state.equals(addressState)) {
+                found = true;
+                break;
             }
+        }
+        if (!found) {
+            throw new RuntimeException("Estado inválido");
         }
     }
 }
