@@ -1,6 +1,5 @@
 package com.gabriel.ferreira.ms_customer.domain.model.address.response;
 
-import com.gabriel.ferreira.ms_customer.domain.model.customer.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +16,4 @@ public class AddressResponse {
     private Integer number;
     private String cep;
     private String complement;
-    private Customer customer;
 }
-
