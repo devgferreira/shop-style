@@ -20,7 +20,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
     }
     @ExceptionHandler(CustomerCpfJaExisteException.class)
-    public final ResponseEntity<Object> handleFuncionarioCustomerCpfJaExisteException(CustomerCpfJaExisteException ex) {
+    public final ResponseEntity<Object> handleCustomerCpfJaExisteException(CustomerCpfJaExisteException ex) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.CUSTOMER_CPF_JA_EXISTE, ex.getMessage());
         return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
     }
