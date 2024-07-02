@@ -2,6 +2,7 @@ package com.gabriel.ferreira.ms_customer.infra.exception.handler;
 
 import com.gabriel.ferreira.ms_customer.infra.exception.ExceptionResponse;
 import com.gabriel.ferreira.ms_customer.infra.exception.address.AddressInvalidoException;
+import com.gabriel.ferreira.ms_customer.infra.exception.address.AddressNaoEncontradoException;
 import com.gabriel.ferreira.ms_customer.infra.exception.customer.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,6 +66,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AddressInvalidoException.class)
     public final ResponseEntity<Object> handleAddressInvalidoException(AddressInvalidoException ex) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.ADDRESS_INVALIDO, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
+    }
+    @ExceptionHandler(AddressNaoEncontradoException.class)
+    public final ResponseEntity<Object> handleAddressNaoEncontradoException(AddressNaoEncontradoException ex) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.ADDRESS_NAO_ENCONTRADA, ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
     }
 }
