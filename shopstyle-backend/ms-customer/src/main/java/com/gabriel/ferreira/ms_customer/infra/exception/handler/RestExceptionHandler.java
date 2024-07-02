@@ -48,7 +48,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(CustomerNaoEncontradoException.class)
     public final ResponseEntity<Object> handleCustomerNaoEncontradoException(CustomerNaoEncontradoException ex) {
-        ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.ADDRESS_NAO_ENCONTRADA, ex.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.CUSTOMER_NAO_ENCONTRADO, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
+    }
+    @ExceptionHandler(CustomerPasswordInvalidoException.class)
+    public final ResponseEntity<Object> handleCustomerPasswordInvalidoException(CustomerPasswordInvalidoException ex) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.CUSTOMER_PASSWORD_INVALIDO, ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
     }
 }
