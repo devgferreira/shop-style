@@ -4,6 +4,7 @@ import com.gabriel.ferreira.ms_customer.infra.exception.ExceptionResponse;
 import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerCpfInvalidoException;
 import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerCpfJaExisteException;
 import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerEmailInvalidoException;
+import com.gabriel.ferreira.ms_customer.infra.exception.customer.CustomerEmailJaExisteException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -26,6 +27,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(CustomerEmailInvalidoException.class)
     public final ResponseEntity<Object> handleCustomerEmailInvalidoException(CustomerEmailInvalidoException ex) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.CUSTOMER_EMAIL_INVALIDO, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
+    }
+    @ExceptionHandler(CustomerEmailJaExisteException.class)
+    public final ResponseEntity<Object> handleCustomerEmailJaExisteException(CustomerEmailJaExisteException ex) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.CUSTOMER_EMAIL_JA_EXISTE, ex.getMessage());
         return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
     }
 }
