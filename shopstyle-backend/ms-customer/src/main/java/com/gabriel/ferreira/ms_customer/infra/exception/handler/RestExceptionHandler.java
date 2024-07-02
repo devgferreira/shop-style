@@ -46,4 +46,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.CUSTOMER_INVALIDO, ex.getMessage());
         return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
     }
+    @ExceptionHandler(CustomerNaoEncontradoException.class)
+    public final ResponseEntity<Object> handleCustomerNaoEncontradoException(CustomerNaoEncontradoException ex) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.ADDRESS_NAO_ENCONTRADA, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
+    }
 }
