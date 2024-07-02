@@ -41,4 +41,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.CUSTOMER_LAST_NAME_INVALIDO, ex.getMessage());
         return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
     }
+    @ExceptionHandler(CustomerInvalidoException.class)
+    public final ResponseEntity<Object> handleCustomerInvalidoException(CustomerInvalidoException ex) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.CUSTOMER_INVALIDO, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
+    }
 }
