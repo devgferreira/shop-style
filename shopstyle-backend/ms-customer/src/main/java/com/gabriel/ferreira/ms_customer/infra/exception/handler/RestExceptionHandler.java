@@ -56,4 +56,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.CUSTOMER_PASSWORD_INVALIDO, ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
     }
+    @ExceptionHandler(CustomerSexInvalidoException.class)
+    public final ResponseEntity<Object> handleCustomerSexInvalidoException(CustomerSexInvalidoException ex) {
+            ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.CUSTOMER_SEX_INVALIDO, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
+    }
 }
