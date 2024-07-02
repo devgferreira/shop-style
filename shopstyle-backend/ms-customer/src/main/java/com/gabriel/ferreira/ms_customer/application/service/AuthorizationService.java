@@ -5,12 +5,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class AuthorizationService {
+public class AuthorizationService implements UserDetailsService {
     private final IUserRepository _userRepository;
 
     public AuthorizationService(IUserRepository userRepository) {
         _userRepository = userRepository;
     }
 
-
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return _userRepository.findByEmail(username);
+    }
 }
