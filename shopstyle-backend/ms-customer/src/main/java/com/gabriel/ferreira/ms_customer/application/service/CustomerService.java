@@ -2,18 +2,22 @@ package com.gabriel.ferreira.ms_customer.application.service;
 
 import com.gabriel.ferreira.ms_customer.application.interfaces.IAddressService;
 import com.gabriel.ferreira.ms_customer.application.interfaces.ICustomerService;
+import com.gabriel.ferreira.ms_customer.application.interfaces.IUserService;
 import com.gabriel.ferreira.ms_customer.domain.enums.ErrorCodes;
 import com.gabriel.ferreira.ms_customer.domain.enums.Sex;
+import com.gabriel.ferreira.ms_customer.domain.enums.UserRole;
 import com.gabriel.ferreira.ms_customer.domain.model.address.response.AddressResponse;
 import com.gabriel.ferreira.ms_customer.domain.model.customer.Customer;
 import com.gabriel.ferreira.ms_customer.domain.model.customer.request.CustomerRequest;
 import com.gabriel.ferreira.ms_customer.domain.model.customer.response.CustomerResponse;
+import com.gabriel.ferreira.ms_customer.domain.model.user.User;
 import com.gabriel.ferreira.ms_customer.domain.repository.ICustomerRepository;
 import com.gabriel.ferreira.ms_customer.infra.exception.ExceptionResponse;
 import com.gabriel.ferreira.ms_customer.infra.exception.constant.ErrorConstant;
 import com.gabriel.ferreira.ms_customer.infra.exception.customer.*;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,12 +29,14 @@ public class CustomerService implements ICustomerService {
     private final ICustomerRepository _customerRepository;
     private final IAddressService _addressService;
     private final ModelMapper _modelMapper;
+    private final IUserService _userService;
 
 
-    public CustomerService(ICustomerRepository customerRepository, IAddressService addressService, ModelMapper modelMapper) {
+    public CustomerService(ICustomerRepository customerRepository, IAddressService addressService, ModelMapper modelMapper, IUserService userService) {
         _customerRepository = customerRepository;
         _addressService = addressService;
         _modelMapper = modelMapper;
+        _userService = userService;
     }
 
     @Override
@@ -38,7 +44,15 @@ public class CustomerService implements ICustomerService {
         validarAtributosCustomer(customerRequest);
         validarSeEmailJaExiste(customerRequest.getEmail());
         validarSeCpfJaExiste(customerRequest.getCpf());
+
         Customer customer = _modelMapper.map(customerRequest, Customer.class);
+
+        String senhaCriptografada = new BCryptPasswordEncoder().encode(customer.getPassword());
+        customer.setPassword(senhaCriptografada);
+
+        User user = new User(customer.getEmail(), customer.getPassword(), UserRole.USER);
+
+        _userService.criarUser(user);
         return _modelMapper.map(_customerRepository.save(customer), CustomerResponse.class);
     }
 
