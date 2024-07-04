@@ -14,6 +14,8 @@ import java.util.List;
 @Entity(name = "users")
 @Data
 @AllArgsConstructor
+
+
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +23,12 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private UserRole userRole;
+
+    public User(String email, String password, UserRole userRole) {
+        this.email = email;
+        this.password = password;
+        this.userRole = userRole;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
