@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -28,9 +30,10 @@ public class SecurityConfigurations {
                                 "/configuration/ui",
                                 "/configuration/security",
                                 "/swagger-ui.html",
-                                "/webjars/**")
-                        .permitAll()
-                        .requestMatchers(HttpMethod.GET , "/api/consumers/id/{customerId}")
+                                "/webjars/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/customers").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/customers/id/{customerId}")
                         .hasRole("USER")
                         .anyRequest().authenticated()
 
@@ -42,5 +45,10 @@ public class SecurityConfigurations {
    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+   }
+
+   @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
    }
 }
