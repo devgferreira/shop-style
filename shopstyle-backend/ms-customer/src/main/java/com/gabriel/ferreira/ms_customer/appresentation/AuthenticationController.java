@@ -2,6 +2,7 @@ package com.gabriel.ferreira.ms_customer.appresentation;
 
 import com.gabriel.ferreira.ms_customer.domain.model.user.User;
 import com.gabriel.ferreira.ms_customer.domain.model.user.login.Login;
+import com.gabriel.ferreira.ms_customer.infra.config.modelMapper.security.TokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,9 +19,12 @@ import javax.validation.Valid;
 @RequestMapping("/api/login")
 public class AuthenticationController {
     private final AuthenticationManager _authenticationManager;
+    private final TokenService _tokenService;
 
-    public AuthenticationController(AuthenticationManager authenticationManager) {
+
+    public AuthenticationController(AuthenticationManager authenticationManager, TokenService tokenService) {
         _authenticationManager = authenticationManager;
+        _tokenService = tokenService;
     }
 
     @PostMapping
@@ -28,6 +32,8 @@ public class AuthenticationController {
 
         var userNamePassword = new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword());
         var auth = _authenticationManager.authenticate(userNamePassword);
-        return new ResponseEntity<>("Login feito com sucesso", HttpStatus.OK);
+        var token = _tokenService.generateToken((User) auth.getPrincipal());
+
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 }
