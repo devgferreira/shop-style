@@ -11,3 +11,8 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   application:
     name: ms-customer
+
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:my-secret-key}
