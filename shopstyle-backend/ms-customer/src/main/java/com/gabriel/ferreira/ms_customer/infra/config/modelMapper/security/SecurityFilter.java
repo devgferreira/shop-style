@@ -15,7 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-public class SecurityFilter {
+public class SecurityFilter extends OncePerRequestFilter {
 
     private  final TokenService _tokenService;
     private final IUserService _userService;
@@ -25,7 +25,18 @@ public class SecurityFilter {
         _userService = userService;
     }
 
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        var token = this.recoverToken(request);
+        if(token != null){
+            var email = _tokenService.validateToken(token);
+            UserDetails user = _userService.buscarUserPorEmail(email);
 
+            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+        filterChain.doFilter(request, response);
+    }
     private String recoverToken(HttpServletRequest request){
         var authHeader = request.getHeader("Authorization");
         if(authHeader == null){
