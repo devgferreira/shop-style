@@ -1,4 +1,4 @@
-package com.gabriel.ferreira.ms_customer.infra.config.modelMapper.security;
+package com.gabriel.ferreira.ms_customer.infra.config.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
