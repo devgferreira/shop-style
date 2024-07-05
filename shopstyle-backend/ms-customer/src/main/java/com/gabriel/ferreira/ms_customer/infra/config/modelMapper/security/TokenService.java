@@ -30,7 +30,19 @@ public class TokenService {
         }
     }
 
-
+    public String validateToken(String token){
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            var email = JWT.require(algorithm)
+                    .withIssuer("ms-customer")
+                    .build()
+                    .verify(token)
+                    .getSubject();
+            return email;
+        }catch (JWTVerificationException e){
+            return "";
+        }
+    }
 
     private Instant generateExpirationDate(){
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
