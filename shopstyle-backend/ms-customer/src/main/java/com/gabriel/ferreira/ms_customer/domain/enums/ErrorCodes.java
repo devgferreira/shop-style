@@ -18,7 +18,8 @@ public enum ErrorCodes {
     CUSTOMER_CPF_INVALIDO("Cpf inválido, por favor, coloque no formato: 000.000.000-00"),
     ADDRESS_NAO_ENCONTRADA("Address não econtrada"),
     ADDRESS_INVALIDO("Por favor, preencha todos os campos"),
-    ADDRESS_STATE_INVALIDO("Por favor, coloque um dos 27 estados do Brasil");
+    ADDRESS_STATE_INVALIDO("Por favor, coloque um dos 27 estados do Brasil"),
+    JWT_TOKEN_CRIAR_ERROR("Error ao criar o token JWT!");
 
     private final String mensagem;
 }
