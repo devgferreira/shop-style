@@ -5,6 +5,7 @@ import com.gabriel.ferreira.ms_customer.infra.exception.address.AddressInvalidoE
 import com.gabriel.ferreira.ms_customer.infra.exception.address.AddressNaoEncontradoException;
 import com.gabriel.ferreira.ms_customer.infra.exception.address.AddressStateException;
 import com.gabriel.ferreira.ms_customer.infra.exception.customer.*;
+import com.gabriel.ferreira.ms_customer.infra.exception.token.TokenCriarException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -57,17 +58,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(CustomerPasswordInvalidoException.class)
     public final ResponseEntity<Object> handleCustomerPasswordInvalidoException(CustomerPasswordInvalidoException ex) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.CUSTOMER_PASSWORD_INVALIDO, ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
     }
     @ExceptionHandler(CustomerSexInvalidoException.class)
     public final ResponseEntity<Object> handleCustomerSexInvalidoException(CustomerSexInvalidoException ex) {
             ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.CUSTOMER_SEX_INVALIDO, ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
     }
     @ExceptionHandler(AddressInvalidoException.class)
     public final ResponseEntity<Object> handleAddressInvalidoException(AddressInvalidoException ex) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.ADDRESS_INVALIDO, ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
     }
     @ExceptionHandler(AddressNaoEncontradoException.class)
     public final ResponseEntity<Object> handleAddressNaoEncontradoException(AddressNaoEncontradoException ex) {
@@ -77,6 +78,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AddressStateException.class)
     public final ResponseEntity<Object> handleAddressStateException(AddressStateException ex) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.ADDRESS_STATE_INVALIDO, ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
+    }
+    @ExceptionHandler(TokenCriarException.class)
+    public final ResponseEntity<Object> handleTokenCriarException(TokenCriarException ex) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCodes.JWT_TOKEN_CRIAR_ERROR, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.OK).body(exceptionResponse);
     }
 }
