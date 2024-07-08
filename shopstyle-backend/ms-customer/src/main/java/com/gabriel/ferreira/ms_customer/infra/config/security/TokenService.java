@@ -4,7 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.gabriel.ferreira.ms_customer.domain.enums.ErrorCodes;
 import com.gabriel.ferreira.ms_customer.domain.model.user.User;
+import com.gabriel.ferreira.ms_customer.infra.exception.ExceptionResponse;
+import com.gabriel.ferreira.ms_customer.infra.exception.constant.ErrorConstant;
+import com.gabriel.ferreira.ms_customer.infra.exception.token.TokenCriarException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -26,10 +30,11 @@ public class TokenService {
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
         }catch (JWTCreationException e){
-            throw new RuntimeException("Error quando gerar o token", e);
+            throw new TokenCriarException(
+                    new ExceptionResponse(ErrorCodes.JWT_TOKEN_CRIAR_ERROR, ErrorConstant.JWT_TOKEN_CRIAR_ERROR)
+            );
         }
     }
-
     public String validateToken(String token){
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
